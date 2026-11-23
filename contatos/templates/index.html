@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro K3s - Django + MySQL</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; padding: 0 15px; }
+        .pod-info { background: #e0f2fe; padding: 10px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #0284c7; }
+        input, textarea { width: 100%; padding: 8px; margin: 6px 0 12px; box-sizing: border-box; }
+        button { background: #16a34a; color: white; padding: 10px 15px; border: none; cursor: pointer; font-size: 16px; }
+        .item { border-bottom: 1px solid #ddd; padding: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="pod-info">
+        <strong>Pod que atendeu esta requisição:</strong> {{ pod_name }}
+    </div>
+
+    <h2>Novo Cadastro</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Nome:</label>
+        <input type="text" name="nome" required>
+        <label>E-mail:</label>
+        <input type="email" name="email" required>
+        <label>Mensagem:</label>
+        <textarea name="mensagem" rows="3" required></textarea>
+        <button type="submit">Salvar no MySQL</button>
+    </form>
+
+    <hr>
+    <h2>Registros Cadastrados</h2>
+    {% for m in mensagens %}
+        <div class="item">
+            <strong>{{ m.nome }}</strong> ({{ m.email }})<br>
+            <p>{{ m.mensagem }}</p>
+        </div>
+    {% empty %}
+        <p>Nenhum registro encontrado.</p>
+    {% endfor %}
+</body>
+</html>
